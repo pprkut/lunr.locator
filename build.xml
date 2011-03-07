@@ -48,7 +48,8 @@
         <exec executable="phpdoc">
             <arg line=" --directory ${system},${application},${config}
                         --output    HTML:Smarty/Evolve:default
-                        --target    ${basedir}/build/api" />
+                        --target    ${basedir}/build/api
+                        --parseprivate" />
         </exec>
     </target>
 
