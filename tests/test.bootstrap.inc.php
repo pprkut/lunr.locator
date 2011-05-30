@@ -8,8 +8,12 @@ set_include_path(
     $base . "/system/libraries/core:" .
     $base . "/system/libraries/third-party:" .
     $base . "/application/libraries/core:" .
-    $base . "/application/libraries" .
+    $base . "/application/libraries:" .
     get_include_path()
 );
+
+// Load and setup class file autloader
+include_once("class.autoloader.inc.php");
+spl_autoload_register("Autoloader::load");
 
 ?>
