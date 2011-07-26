@@ -5,6 +5,7 @@ $base = dirname(__FILE__) . "/..";
 set_include_path(
     $base . "/system/config:" .
     $base . "/system:" .
+    $base . "/tests:" .
     $base . "/application/libraries/core:" .
     $base . "/application/libraries:" .
     get_include_path()
