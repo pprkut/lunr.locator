@@ -20,6 +20,7 @@ set_include_path(
     $base . '/system/config:' .
     $base . '/system:' .
     $base . '/tests:' .
+    $base . '/tests/mocks:' .
     $base . '/tests/system:' .
     $base . '/application/libraries/core:' .
     $base . '/application/libraries:' .
