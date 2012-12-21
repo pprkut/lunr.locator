@@ -9,12 +9,15 @@
             colors="true">
     <testsuites>
         <testsuite name="Lunr Testsuite">
-            <file>tests/system/libraries/core/class.locator.test.php</file>
+            <file>src/Lunr/Core/Tests/LocatorTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory>../system/libraries/</directory>
+            <directory>../src/</directory>
+            <exclude>
+                <directory>../src/Lunr/Core/Tests/</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>

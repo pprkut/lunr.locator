@@ -13,8 +13,9 @@
  * @license    http://lunr.nl/LICENSE MIT License
  */
 
-namespace Lunr\Libraries\Core;
+namespace Lunr\Core\Tests;
 
+use Lunr\Core\Locator;
 use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 use stdClass;
@@ -26,7 +27,7 @@ use stdClass;
  * @package    Core
  * @subpackage Tests
  * @author     Heinz Wiesinger <heinz@m2mobi.com>
- * @covers     Lunr\Libraries\Core\Locator
+ * @covers     Lunr\Core\Locator
  */
 class LocatorTest extends PHPUnit_Framework_TestCase
 {
@@ -49,7 +50,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->locator            = new Locator();
-        $this->locator_reflection = new ReflectionClass('Lunr\Libraries\Core\Locator');
+        $this->locator_reflection = new ReflectionClass('Lunr\Core\Locator');
     }
 
     /**
@@ -79,7 +80,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * Test that storing values that are not callable does not work.
      *
      * @dataProvider nonClosureValueProvider
-     * @covers       Lunr\Libraries\Core\Locator::__set
+     * @covers       Lunr\Core\Locator::__set
      */
     public function testNonClosureValuesDoNotGetStoredWithSet($value)
     {
@@ -100,7 +101,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     /**
      * Test that storing values that are callable works.
      *
-     * @covers Lunr\Libraries\Core\Locator::__set
+     * @covers Lunr\Core\Locator::__set
      */
     public function testClosuresGetStored()
     {
@@ -120,7 +121,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     /**
      * Test that calling an unknown ID returns NULL.
      *
-     * @covers Lunr\Libraries\Core\Locator::__call
+     * @covers Lunr\Core\Locator::__call
      */
     public function testCallingUnknownIDReturnsNull()
     {
@@ -130,7 +131,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     /**
      * Test that calling an ID executes the stored closure.
      *
-     * @covers Lunr\Libraries\Core\Locator::__call
+     * @covers Lunr\Core\Locator::__call
      */
     public function testCallingIDExecutesClosure()
     {
@@ -145,7 +146,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
      * Test that declaring a non-closure value singleton returns NULL.
      *
      * @dataProvider nonClosureValueProvider
-     * @covers       Lunr\Libraries\Core\Locator::as_singleton
+     * @covers       Lunr\Core\Locator::as_singleton
      */
     public function testDeclaringNonClosureSingletonReturnsNull($value)
     {
@@ -155,7 +156,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     /**
      * Test that declaring a closure singleton returns a different closure.
      *
-     * @covers Lunr\Libraries\Core\Locator::as_singleton
+     * @covers Lunr\Core\Locator::as_singleton
      */
     public function testDeclaringAsSingletonReturnsDifferentClosure()
     {
@@ -169,7 +170,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     /**
      * Test that the singleton closure returns the value returned from the sub-closure.
      *
-     * @covers Lunr\Libraries\Core\Locator::as_singleton
+     * @covers Lunr\Core\Locator::as_singleton
      */
     public function testSingletonClosureReturnsValueFromClosure()
     {
@@ -182,7 +183,7 @@ class LocatorTest extends PHPUnit_Framework_TestCase
     /**
      * Test that the singleton closure will return a singleton object starting with the second call.
      *
-     * @covers Lunr\Libraries\Core\Locator::as_singleton
+     * @covers Lunr\Core\Locator::as_singleton
      */
     public function testSingletonClosureReturnsSingletonUponSecondCall()
     {
