@@ -24,8 +24,6 @@ set_include_path(
     $base . '/tests:' .
     $base . '/tests/mocks:' .
     $base . '/tests/system:' .
-    $base . '/application/libraries/core:' .
-    $base . '/application/libraries:' .
     get_include_path()
 );
 
