@@ -10,6 +10,10 @@
     <testsuites>
         <testsuite name="Lunr Testsuite">
             <file>src/Lunr/Core/Tests/LocatorTest.php</file>
+            <file>src/Lunr/Core/Tests/ConfigServiceLocatorBaseTest.php</file>
+            <file>src/Lunr/Core/Tests/ConfigServiceLocatorSupportTest.php</file>
+            <file>src/Lunr/Core/Tests/ConfigServiceLocatorGetInstanceTest.php</file>
+            <file>src/Lunr/Core/Tests/ConfigServiceLocatorLocateTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
