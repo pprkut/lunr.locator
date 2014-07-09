@@ -9,15 +9,15 @@
             colors="true"
             verbose="true">
     <php>
-        <ini name="zend.enable_gc" value="0" />
+        <ini name="zend.enable_gc" value="1" />
     </php>
     <testsuites>
         <testsuite name="Core">
-            <file>src/Lunr/Core/Tests/ClosureServiceLocatorTest.php</file>
-            <file>src/Lunr/Core/Tests/ConfigServiceLocatorBaseTest.php</file>
-            <file>src/Lunr/Core/Tests/ConfigServiceLocatorSupportTest.php</file>
-            <file>src/Lunr/Core/Tests/ConfigServiceLocatorGetInstanceTest.php</file>
-            <file>src/Lunr/Core/Tests/ConfigServiceLocatorLocateTest.php</file>
+            <file>../src/Lunr/Core/Tests/ClosureServiceLocatorTest.php</file>
+            <file>../src/Lunr/Core/Tests/ConfigServiceLocatorBaseTest.php</file>
+            <file>../src/Lunr/Core/Tests/ConfigServiceLocatorSupportTest.php</file>
+            <file>../src/Lunr/Core/Tests/ConfigServiceLocatorGetInstanceTest.php</file>
+            <file>../src/Lunr/Core/Tests/ConfigServiceLocatorLocateTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
