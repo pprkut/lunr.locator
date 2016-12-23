@@ -13,7 +13,6 @@
     </php>
     <testsuites>
         <testsuite name="Core">
-            <file>../src/Lunr/Core/Tests/ClosureServiceLocatorTest.php</file>
             <file>../src/Lunr/Core/Tests/ConfigServiceLocatorBaseTest.php</file>
             <file>../src/Lunr/Core/Tests/ConfigServiceLocatorSupportTest.php</file>
             <file>../src/Lunr/Core/Tests/ConfigServiceLocatorGetInstanceTest.php</file>
