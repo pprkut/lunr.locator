@@ -7,5 +7,14 @@
             "prefix": "Lunr\\Halo",
             "search-path": "/src/Lunr/Halo/"
         }
+    },
+    "Lunr.Config": {
+        "url": "https://github.com/M2mobi/lunr.config.git",
+        "version": "0.7",
+        "revision": "master",
+        "psr4": {
+            "prefix": "Lunr\\Core",
+            "search-path": "/src/Lunr/Core/"
+        }
     }
 }
