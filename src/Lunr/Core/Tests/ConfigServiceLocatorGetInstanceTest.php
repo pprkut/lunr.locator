@@ -26,7 +26,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetInstanceReturnsNullForNonInstantiableClass(): void
     {
-        $cache = [ 'controller' => [ 'name' => 'Lunr\Corona\Controller' ] ];
+        $cache = [ 'controller' => [ 'name' => 'LunrTest\Corona\Controller' ] ];
         $this->set_reflection_property_value('cache', $cache);
 
         $method = $this->get_accessible_reflection_method('get_instance');
@@ -56,7 +56,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetInstanceReturnsNullForTooLittleNumberOfConstructorArguments(): void
     {
-        $cache = [ 'request' => [ 'name' => 'Lunr\Corona\Request', 'params' => [] ] ];
+        $cache = [ 'request' => [ 'name' => 'LunrTest\Corona\Request', 'params' => [] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
         $method = $this->get_accessible_reflection_method('get_instance');
@@ -71,12 +71,12 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetInstanceReturnsInstanceForConstructorWithArguments(): void
     {
-        $cache = [ 'datetime' => [ 'name' => 'Lunr\Core\DateTime', 'params' => [ 'config' ] ] ];
+        $cache = [ 'datetime' => [ 'name' => 'LunrTest\Core\DateTime', 'params' => [ 'config' ] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
         $method = $this->get_accessible_reflection_method('get_instance');
 
-        $this->assertInstanceOf('Lunr\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
     }
 
     /**
@@ -86,12 +86,12 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetInstanceReturnsInstanceForConstructorWithoutArguments(): void
     {
-        $cache = [ 'datetime' => [ 'name' => 'Lunr\Core\DateTime', 'params' => [] ] ];
+        $cache = [ 'datetime' => [ 'name' => 'LunrTest\Core\DateTime', 'params' => [] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
         $method = $this->get_accessible_reflection_method('get_instance');
 
-        $this->assertInstanceOf('Lunr\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
     }
 
     /**

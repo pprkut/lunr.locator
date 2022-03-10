@@ -38,12 +38,12 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
      */
     public function testLocateReinstantiatesInstanceFromCache(): void
     {
-        $cache = [ 'datetime' => [ 'name' => 'Lunr\Core\DateTime', 'params' => [ 'config' ] ] ];
+        $cache = [ 'datetime' => [ 'name' => 'LunrTest\Core\DateTime', 'params' => [ 'config' ] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
         $method = $this->get_accessible_reflection_method('locate');
 
-        $this->assertInstanceOf('Lunr\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
     }
 
     /**
@@ -105,7 +105,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
         $return = $registry->getValue($this->class);
 
         $this->assertArrayHasKey('datetime', $return);
-        $this->assertInstanceOf('Lunr\Core\DateTime', $return['datetime']);
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $return['datetime']);
     }
 
     /**
@@ -117,7 +117,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     {
         $method = $this->get_accessible_reflection_method('locate');
 
-        $this->assertInstanceOf('Lunr\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
     }
 
     /**
@@ -164,10 +164,10 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
      */
     public function testMagicCallReinstantiatesInstanceFromCache(): void
     {
-        $cache = [ 'datetime' => [ 'name' => 'Lunr\Core\DateTime', 'params' => [ 'config' ] ] ];
+        $cache = [ 'datetime' => [ 'name' => 'LunrTest\Core\DateTime', 'params' => [ 'config' ] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
-        $this->assertInstanceOf('Lunr\Core\DateTime', $this->class->datetime());
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $this->class->datetime());
     }
 
     /**
@@ -225,7 +225,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
         $return = $registry->getValue($this->class);
 
         $this->assertArrayHasKey('datetime', $return);
-        $this->assertInstanceOf('Lunr\Core\DateTime', $return['datetime']);
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $return['datetime']);
     }
 
     /**
@@ -235,7 +235,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
      */
     public function testMagicCallReturnsTotallyNewInstance(): void
     {
-        $this->assertInstanceOf('Lunr\Core\DateTime', $this->class->datetime());
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $this->class->datetime());
     }
 
     /**

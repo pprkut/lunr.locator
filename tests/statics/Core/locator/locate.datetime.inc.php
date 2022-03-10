@@ -4,7 +4,7 @@ $recipe = [];
 
 $recipe['datetime'] = [];
 
-$recipe['datetime']['name'] = 'Lunr\Core\DateTime';
+$recipe['datetime']['name'] = 'LunrTest\Core\DateTime';
 
 $recipe['datetime']['params'] = [];
 
