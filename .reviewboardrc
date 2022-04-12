@@ -1,7 +1,7 @@
-# ReviewBoard Configuration for Lunr
+# ReviewBoard Configuration for Lunr.Locator
 
 # Repository name
-REPOSITORY = "Lunr"
+REPOSITORY = "Lunr.Locator"
 
 # ReviewBoard Server URL
 REVIEWBOARD_URL = "http://reviews.lunr.nl"
