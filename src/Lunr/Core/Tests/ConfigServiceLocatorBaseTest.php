@@ -85,6 +85,19 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
     }
 
     /**
+     * Test that get() locates a class.
+     *
+     * @covers \Lunr\Core\ConfigServiceLocator::get
+     */
+    public function testGetCallsLocate()
+    {
+        $this->expectException('Lunr\Core\Exceptions\NotFoundException');
+        $this->expectExceptionMessage('Failed to locate object for identifier \'1\'!');
+
+        $this->class->get(1);
+    }
+
+    /**
      * Test that override() returns TRUE when successful.
      *
      * @covers Lunr\Core\ConfigServiceLocator::override

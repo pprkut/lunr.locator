@@ -14,12 +14,15 @@
 
 namespace Lunr\Core;
 
+use Lunr\Core\Exceptions\ContainerException;
+use Lunr\Core\Exceptions\NotFoundException;
+use Psr\Container\ContainerInterface;
 use ReflectionClass;
 
 /**
  * Class Locator
  */
-class ConfigServiceLocator
+class ConfigServiceLocator implements ContainerInterface
 {
 
     /**
@@ -76,7 +79,7 @@ class ConfigServiceLocator
      */
     public function __call(string $id, array $arguments): ?object
     {
-        return $this->locate($id);
+        return $this->get($id);
     }
 
     /**
@@ -96,13 +99,49 @@ class ConfigServiceLocator
     }
 
     /**
-     * Locate an object by ID.
+     * Returns true if the container can return an entry for the given identifier.
+     * Returns false otherwise.
      *
-     * @param string $id ID of the object to locate.
+     * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
+     * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
      *
-     * @return object|null New Object or NULL if the ID is unknown.
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @return bool
      */
-    protected function locate(string $id): ?object
+    public function has(string $id): bool
+    {
+        if (isset($this->registry[$id]))
+        {
+            return TRUE;
+        }
+
+        if (isset($this->cache[$id]))
+        {
+            return TRUE;
+        }
+
+        $this->load_recipe($id);
+
+        if (isset($this->cache[$id]))
+        {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @throws NotFoundException  No entry was found for **this** identifier.
+     * @throws ContainerException Error while retrieving the entry.
+     *
+     * @return mixed Entry.
+     */
+    public function get(string $id)
     {
         if (isset($this->registry[$id]) && is_object($this->registry[$id]))
         {
@@ -121,7 +160,7 @@ class ConfigServiceLocator
             return $this->process_new_instance($id, $this->get_instance($id));
         }
 
-        return NULL;
+        throw new NotFoundException("Failed to locate object for identifier '$id'!");
     }
 
     /**
@@ -133,12 +172,11 @@ class ConfigServiceLocator
      */
     protected function load_recipe(string $id): void
     {
-        $file   = 'locator/locate.' . $id . '.inc.php';
-        $recipe = '';
-
-        if (stream_resolve_include_path($file))
+        $recipe = [];
+        $path   = 'locator/locate.' . $id . '.inc.php';
+        if (stream_resolve_include_path($path) !== FALSE)
         {
-            include $file;
+            include $path;
         }
 
         if (isset($recipe[$id]) && is_array($recipe[$id]) && is_array($recipe[$id]['params']))
@@ -188,7 +226,7 @@ class ConfigServiceLocator
 
         if ($reflection->isInstantiable() !== TRUE)
         {
-            return NULL;
+            throw new ContainerException("Not possible to instantiate '{$reflection->name}'!");
         }
 
         $constructor = $reflection->getConstructor();
@@ -203,7 +241,7 @@ class ConfigServiceLocator
 
         if (count($this->cache[$id]['params']) < $number_of_required_parameters)
         {
-            return NULL;
+            throw new ContainerException("Not enough parameters for $reflection->name!");
         }
 
         if ($number_of_total_parameters > 0)
@@ -241,16 +279,7 @@ class ConfigServiceLocator
                 continue;
             }
 
-            $tmp = $this->locate($value);
-
-            if (is_null($tmp))
-            {
-                $processed_params[] = $value;
-            }
-            else
-            {
-                $processed_params[] = $tmp;
-            }
+            $processed_params[] = $this->get($value);
         }
 
         return $processed_params;

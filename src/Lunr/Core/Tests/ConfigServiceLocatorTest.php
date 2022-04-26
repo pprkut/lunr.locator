@@ -12,13 +12,14 @@
 namespace Lunr\Core\Tests;
 
 use Lunr\Core\ConfigServiceLocator;
+use Lunr\Core\Configuration;
 use Lunr\Halo\LunrBaseTest;
 use ReflectionClass;
 
 /**
  * This class contains the tests for the locator class.
  *
- * @covers     Lunr\Core\ConfigServiceLocator
+ * @covers     \Lunr\Core\ConfigServiceLocator
  */
 abstract class ConfigServiceLocatorTest extends LunrBaseTest
 {
@@ -81,34 +82,6 @@ abstract class ConfigServiceLocatorTest extends LunrBaseTest
         $values[] = [ 1.1 ];
         $values[] = [ NULL ];
         $values[] = [ TRUE ];
-
-        return $values;
-    }
-
-    /**
-     * Unit test data provider for invalid IDs.
-     *
-     * @return array $values Array of invalid ID values
-     */
-    public function invalidIDProvider(): array
-    {
-        $values   = [];
-        $values[] = [ NULL ];
-        $values[] = [ [] ];
-
-        return $values;
-    }
-
-    /**
-     * Unit test data provider for invalid IDs.
-     *
-     * @return array $values Array of invalid ID values
-     */
-    public function stringableIDProvider(): array
-    {
-        $values   = [];
-        $values[] = [ FALSE, '' ];
-        $values[] = [ TRUE, '1' ];
 
         return $values;
     }

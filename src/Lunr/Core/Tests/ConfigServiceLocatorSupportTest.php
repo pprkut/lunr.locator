@@ -167,7 +167,7 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
     /**
      * Test that process_new_instance() calls defined methods with params.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::process_new_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::process_new_instance
      */
     public function testProcessNewInstanceCallsMethodsWithParams(): void
     {
@@ -176,11 +176,11 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
                 'methods' => [
                     [
                         'name'   => 'test',
-                        'params' => [ 'param1' ],
+                        'params' => [ '!param1' ],
                     ],
                     [
                         'name'   => 'test',
-                        'params' => [ 'param2', 'param3' ],
+                        'params' => [ '!param2', '!param3' ],
                     ],
                 ],
             ],
@@ -204,7 +204,7 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
     /**
      * Test that process_new_instance() calls defined methods with no params.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::process_new_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::process_new_instance
      */
     public function testProcessNewInstanceCallsMethodsWithNoParams(): void
     {
@@ -230,7 +230,7 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
     /**
      * Test that process_new_instance() calls defined methods with located params.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::process_new_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::process_new_instance
      */
     public function testProcessNewInstanceCallsMethodsWithLocatedParams(): void
     {
@@ -239,7 +239,7 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
                 'methods' => [
                     [
                         'name'   => 'test',
-                        'params' => [ 'object1_id', 'param2' ],
+                        'params' => [ 'object1_id', '!param2' ],
                     ],
                 ],
             ],

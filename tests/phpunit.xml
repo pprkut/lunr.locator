@@ -15,7 +15,8 @@
             <file>../src/Lunr/Core/Tests/ConfigServiceLocatorBaseTest.php</file>
             <file>../src/Lunr/Core/Tests/ConfigServiceLocatorSupportTest.php</file>
             <file>../src/Lunr/Core/Tests/ConfigServiceLocatorGetInstanceTest.php</file>
-            <file>../src/Lunr/Core/Tests/ConfigServiceLocatorLocateTest.php</file>
+            <file>../src/Lunr/Core/Tests/ConfigServiceLocatorHasTest.php</file>
+            <file>../src/Lunr/Core/Tests/ConfigServiceLocatorGetTest.php</file>
         </testsuite>
     </testsuites>
     <filter>

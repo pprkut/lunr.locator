@@ -18,40 +18,36 @@ use stdClass;
  *
  * @covers     Lunr\Core\ConfigServiceLocator
  */
-class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
+class ConfigServiceLocatorGetTest extends ConfigServiceLocatorTest
 {
 
     /**
      * Test that locate() returns an instance from the registry.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::locate
+     * @covers \Lunr\Core\ConfigServiceLocator::get
      */
     public function testLocateReturnsInstanceFromRegistry(): void
     {
-        $method = $this->get_accessible_reflection_method('locate');
-
-        $this->assertInstanceOf('Lunr\Core\Configuration', $method->invokeArgs($this->class, [ 'config' ]));
+        $this->assertInstanceOf('Lunr\Core\Configuration', $this->class->get('config'));
     }
 
     /**
      * Test that locate() reinstantiates an object from the config cache.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::locate
+     * @covers \Lunr\Core\ConfigServiceLocator::get
      */
     public function testLocateReinstantiatesInstanceFromCache(): void
     {
         $cache = [ 'datetime' => [ 'name' => 'LunrTest\Core\DateTime', 'params' => [ 'config' ] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
-        $method = $this->get_accessible_reflection_method('locate');
-
-        $this->assertInstanceOf('LunrTest\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $this->class->get('datetime'));
     }
 
     /**
      * Test that locate() processes an object from the config cache.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::__call
+     * @covers \Lunr\Core\ConfigServiceLocator::__call
      */
     public function testLocateProcessesInstanceFromCache(): void
     {
@@ -60,11 +56,11 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
                 'methods' => [
                     [
                         'name'   => 'test',
-                        'params' => [ 'param1' ],
+                        'params' => [ '!param1' ],
                     ],
                     [
                         'name'   => 'test',
-                        'params' => [ 'param2', 'param3' ],
+                        'params' => [ '!param2', '!param3' ],
                     ],
                 ],
             ],
@@ -83,9 +79,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
 
         $this->mock_method([ $this->class, 'get_instance' ], function() use ($mock) { return $mock; });
 
-        $method = $this->get_accessible_reflection_method('locate');
-
-        $method->invokeArgs($this->class, [ 'id' ]);
+        $this->class->get('id');
 
         $this->unmock_method([ $this->class, 'get_instance' ]);
     }
@@ -93,19 +87,15 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     /**
      * Test that locate() processes a totally new object instance.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::locate
+     * @covers \Lunr\Core\ConfigServiceLocator::get
      */
     public function testLocateProcessesTotallyNewInstance(): void
     {
-        $method = $this->get_accessible_reflection_method('locate');
+        $this->assertArrayNotHasKey('datetime', $this->get_reflection_property_value('registry'));
 
-        $registry = $this->get_accessible_reflection_property('registry');
+        $this->class->get('datetime');
 
-        $this->assertArrayNotHasKey('datetime', $registry->getValue($this->class));
-        $method->invokeArgs($this->class, [ 'datetime' ]);
-
-        $return = $registry->getValue($this->class);
-
+        $return = $this->get_reflection_property_value('registry');
         $this->assertArrayHasKey('datetime', $return);
         $this->assertInstanceOf('LunrTest\Core\DateTime', $return['datetime']);
     }
@@ -113,70 +103,30 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     /**
      * Test that locate() returns totally new instance.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::locate
+     * @covers \Lunr\Core\ConfigServiceLocator::get
      */
     public function testLocateReturnsTotallyNewInstance(): void
     {
-        $method = $this->get_accessible_reflection_method('locate');
-
-        $this->assertInstanceOf('LunrTest\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
+        $this->assertInstanceOf('LunrTest\Core\DateTime', $this->class->get('datetime'));
     }
 
     /**
-     * Test that locate() returns NULL for an unknown ID.
+     * Test that locate() throws for an unknown ID.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::locate
+     * @covers \Lunr\Core\ConfigServiceLocator::get
      */
-    public function testLocateReturnsNullForUnknownID(): void
+    public function testLocateThrowsForUnknownID(): void
     {
-        $method = $this->get_accessible_reflection_method('locate');
+        $this->expectException('Lunr\Core\Exceptions\NotFoundException');
+        $this->expectExceptionMessage('Failed to locate object for identifier \'string\'!');
 
-        $this->assertNull($method->invokeArgs($this->class, [ 'string' ]));
-    }
-
-    /**
-     * Test that locate() returns NULL for a non-string ID.
-     *
-     * @param mixed $id Invalid ID
-     *
-     * @dataProvider invalidIDProvider
-     * @covers       Lunr\Core\ConfigServiceLocator::locate
-     */
-    public function testLocateThrowsErrorForNonStringID($id): void
-    {
-        $method = $this->get_accessible_reflection_method('locate');
-
-        $this->expectException('TypeError');
-        $this->expectExceptionMessageMatches('/^Argument 1 passed to Lunr\\\Core\\\ConfigServiceLocator::locate\(\) must be of the type string/');
-
-        $method->invokeArgs($this->class, [ $id ]);
-    }
-
-    /**
-     * Test that locate() returns NULL for a stringable ID.
-     *
-     * @param mixed  $id        Invalid ID
-     * @param string $string_id String representation of the ID
-     *
-     * @dataProvider stringableIDProvider
-     * @covers       Lunr\Core\ConfigServiceLocator::locate
-     */
-    public function testLocateThrowsErrorForStringableID($id, $string_id): void
-    {
-        $instance             = new stdClass();
-        $registry[$string_id] = $instance;
-
-        $this->set_reflection_property_value('registry', $registry);
-
-        $method = $this->get_accessible_reflection_method('locate');
-
-        $this->assertSame($instance, $method->invokeArgs($this->class, [ $id ]));
+        $this->class->get('string');
     }
 
     /**
      * Test that __call() returns an instance from the registry.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::__call
+     * @covers \Lunr\Core\ConfigServiceLocator::__call
      */
     public function testMagicCallReturnsInstanceFromRegistry(): void
     {
@@ -186,7 +136,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     /**
      * Test that __call() reinstantiates an object from the config cache.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::__call
+     * @covers \Lunr\Core\ConfigServiceLocator::__call
      */
     public function testMagicCallReinstantiatesInstanceFromCache(): void
     {
@@ -199,7 +149,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     /**
      * Test that __call() processes an object from the config cache.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::__call
+     * @covers \Lunr\Core\ConfigServiceLocator::__call
      */
     public function testMagicCallProcessesInstanceFromCache(): void
     {
@@ -208,11 +158,11 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
                 'methods' => [
                     [
                         'name'   => 'test',
-                        'params' => [ 'param1' ],
+                        'params' => [ '!param1' ],
                     ],
                     [
                         'name'   => 'test',
-                        'params' => [ 'param2', 'param3' ],
+                        'params' => [ '!param2', '!param3' ],
                     ],
                 ],
             ],
@@ -239,7 +189,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     /**
      * Test that __call() processes a totally new object instance.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::__call
+     * @covers \Lunr\Core\ConfigServiceLocator::__call
      */
     public function testMagicCallProcessesTotallyNewInstance(): void
     {
@@ -257,7 +207,7 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     /**
      * Test that __call() returns totally new instance.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::__call
+     * @covers \Lunr\Core\ConfigServiceLocator::__call
      */
     public function testMagicCallReturnsTotallyNewInstance(): void
     {
@@ -267,11 +217,14 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
     /**
      * Test that __call() returns NULL for an unknown ID.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::__call
+     * @covers \Lunr\Core\ConfigServiceLocator::__call
      */
     public function testMagicCallReturnsNullForUnknownID(): void
     {
-        $this->assertNull($this->class->string());
+        $this->expectException('Lunr\Core\Exceptions\NotFoundException');
+        $this->expectExceptionMessage('Failed to locate');
+
+        $this->class->string();
     }
 
 }

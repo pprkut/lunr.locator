@@ -20,12 +20,15 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
 {
 
     /**
-     * Test that get_instance() returns NULL for a non-instantiable class.
+     * Test that get_instance() throws for a non-instantiable class.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::get_instance
      */
-    public function testGetInstanceReturnsNullForNonInstantiableClass(): void
+    public function testGetInstanceThrowsForNonInstantiableClass(): void
     {
+        $this->expectException('Lunr\Core\Exceptions\ContainerException');
+        $this->expectExceptionMessage('Not possible to instantiate \'LunrTest\Corona\Controller\'!');
+
         $cache = [ 'controller' => [ 'name' => 'LunrTest\Corona\Controller' ] ];
         $this->set_reflection_property_value('cache', $cache);
 
@@ -37,7 +40,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_instance() returns an instance if the class doesn't have a Constructor.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::get_instance
      */
     public function testGetInstanceReturnsInstanceForClassWithoutConstructor(): void
     {
@@ -52,10 +55,13 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_instance() returns NULL when there are not enough arguments for the Constructor.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::get_instance
      */
     public function testGetInstanceReturnsNullForTooLittleNumberOfConstructorArguments(): void
     {
+        $this->expectException('Lunr\Core\Exceptions\ContainerException');
+        $this->expectExceptionMessage('Not enough parameters for LunrTest\Corona\Request!');
+
         $cache = [ 'request' => [ 'name' => 'LunrTest\Corona\Request', 'params' => [] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
@@ -67,7 +73,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_instance() returns an instance for a Constructor with arguments.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::get_instance
      */
     public function testGetInstanceReturnsInstanceForConstructorWithArguments(): void
     {
@@ -82,7 +88,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_instance() returns an instance for a Constructor without arguments.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_instance
+     * @covers \Lunr\Core\ConfigServiceLocator::get_instance
      */
     public function testGetInstanceReturnsInstanceForConstructorWithoutArguments(): void
     {
@@ -97,7 +103,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_parameters processes ID parameters.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_parameters
+     * @covers \Lunr\Core\ConfigServiceLocator::get_parameters
      */
     public function testGetParametersProcessesIDParameter(): void
     {
@@ -118,7 +124,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetParametersProcessesNonIDParameter(): void
     {
-        $params = [ 'string' ];
+        $params = [ '!string' ];
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 
@@ -131,7 +137,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_parameters processes non-string parameters.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_parameters
+     * @covers \Lunr\Core\ConfigServiceLocator::get_parameters
      */
     public function testGetParametersProcessesNonStringParameter(): void
     {
@@ -150,7 +156,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_parameters processes forced non-ID parameters.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_parameters
+     * @covers \Lunr\Core\ConfigServiceLocator::get_parameters
      */
     public function testGetParametersProcessesForcedNonIDParameter(): void
     {
@@ -167,11 +173,11 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     /**
      * Test that get_parameters processes mixed parameters.
      *
-     * @covers Lunr\Core\ConfigServiceLocator::get_parameters
+     * @covers \Lunr\Core\ConfigServiceLocator::get_parameters
      */
     public function testGetParametersProcessesMixedParameters(): void
     {
-        $params = [ 'config', '!config', 'string' ];
+        $params = [ 'config', '!config', '!string' ];
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 
