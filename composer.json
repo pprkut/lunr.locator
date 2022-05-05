@@ -1,17 +1,25 @@
 {
-  "require": {
-    "php": ">=7.2",
-    "lunr/halo": "dev-master",
-    "lunr/config": "dev-master"
-  },
-  "require-dev": {
-    "phpunit/phpunit": ">=7.0",
-    "ext-xdebug": "~2.6||~3.0"
-  },
-  "config": {
-    "optimize-autoloader": true
-  },
-  "autoload": {
-    "psr-4": {"Lunr\\": "src/Lunr/"}
-  }
+    "name": "lunr/locator",
+    "description": "Lunr.Locator is an opinionated service locator.",
+    "keywords": ["servicelocator", "dependency injection"],
+    "homepage": "https://github.com/M2Mobi/lunr.locator",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "lunr/halo": "dev-master",
+        "lunr/config": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=7.0",
+        "ext-xdebug": "~2.6||~3.0"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Lunr\\": "src/Lunr/"
+        }
+    }
 }
