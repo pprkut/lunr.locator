@@ -11,6 +11,8 @@
 
 namespace Lunr\Core\Tests;
 
+use stdClass;
+
 /**
  * This class contains the tests for the locator class.
  *
@@ -140,11 +142,35 @@ class ConfigServiceLocatorLocateTest extends ConfigServiceLocatorTest
      * @dataProvider invalidIDProvider
      * @covers       Lunr\Core\ConfigServiceLocator::locate
      */
-    public function testLocateReturnsNullForNonStringID($id): void
+    public function testLocateThrowsErrorForNonStringID($id): void
     {
         $method = $this->get_accessible_reflection_method('locate');
 
-        $this->assertNull($method->invokeArgs($this->class, [ $id ]));
+        $this->expectException('TypeError');
+        $this->expectExceptionMessageMatches('/^Argument 1 passed to Lunr\\\Core\\\ConfigServiceLocator::locate\(\) must be of the type string/');
+
+        $method->invokeArgs($this->class, [ $id ]);
+    }
+
+    /**
+     * Test that locate() returns NULL for a stringable ID.
+     *
+     * @param mixed  $id        Invalid ID
+     * @param string $string_id String representation of the ID
+     *
+     * @dataProvider stringableIDProvider
+     * @covers       Lunr\Core\ConfigServiceLocator::locate
+     */
+    public function testLocateThrowsErrorForStringableID($id, $string_id): void
+    {
+        $instance             = new stdClass();
+        $registry[$string_id] = $instance;
+
+        $this->set_reflection_property_value('registry', $registry);
+
+        $method = $this->get_accessible_reflection_method('locate');
+
+        $this->assertSame($instance, $method->invokeArgs($this->class, [ $id ]));
     }
 
     /**

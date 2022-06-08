@@ -94,8 +94,21 @@ abstract class ConfigServiceLocatorTest extends LunrBaseTest
     {
         $values   = [];
         $values[] = [ NULL ];
-        $values[] = [ TRUE ];
         $values[] = [ [] ];
+
+        return $values;
+    }
+
+    /**
+     * Unit test data provider for invalid IDs.
+     *
+     * @return array $values Array of invalid ID values
+     */
+    public function stringableIDProvider(): array
+    {
+        $values   = [];
+        $values[] = [ FALSE, '' ];
+        $values[] = [ TRUE, '1' ];
 
         return $values;
     }

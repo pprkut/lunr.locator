@@ -72,9 +72,9 @@ class ConfigServiceLocator
      * @param string $id        ID of the object to instantiate
      * @param array  $arguments Arguments passed on call (Ignored)
      *
-     * @return mixed $return new Object, NULL if the ID is unknown.
+     * @return object|null New Object or NULL if the ID is unknown.
      */
-    public function __call($id, $arguments)
+    public function __call(string $id, array $arguments): ?object
     {
         return $this->locate($id);
     }
@@ -86,21 +86,13 @@ class ConfigServiceLocator
      * and won't if the specified ID is already taken.
      *
      * @param string $id     ID for the preloaded object
-     * @param mixed  $object Instance of the object to preload
+     * @param object $object Instance of the object to preload
      *
-     * @return boolean $return TRUE if override successfully placed, FALSE otherwise
+     * @return void
      */
-    public function override($id, $object)
+    public function override(string $id, object $object): void
     {
-        if (is_object($object))
-        {
-            $this->registry[$id] = $object;
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
+        $this->registry[$id] = $object;
     }
 
     /**
@@ -108,15 +100,10 @@ class ConfigServiceLocator
      *
      * @param string $id ID of the object to locate.
      *
-     * @return mixed $return new Object, NULL if the ID is unknown.
+     * @return object|null New Object or NULL if the ID is unknown.
      */
-    protected function locate($id)
+    protected function locate(string $id): ?object
     {
-        if (is_string($id) === FALSE)
-        {
-            return NULL;
-        }
-
         if (isset($this->registry[$id]) && is_object($this->registry[$id]))
         {
             return $this->registry[$id];
@@ -144,7 +131,7 @@ class ConfigServiceLocator
      *
      * @return void
      */
-    protected function load_recipe($id)
+    protected function load_recipe(string $id): void
     {
         $file   = 'locator/locate.' . $id . '.inc.php';
         $recipe = '';
@@ -164,11 +151,11 @@ class ConfigServiceLocator
      * Check whether we need to do something special with a newly created object.
      *
      * @param string $id       ID of the object instantiated
-     * @param mixed  $instance Newly created object instance
+     * @param object $instance Newly created object instance
      *
-     * @return mixed $instance The passed object instance.
+     * @return object The passed object instance.
      */
-    protected function process_new_instance($id, $instance)
+    protected function process_new_instance(string $id, object $instance): object
     {
         if (isset($this->cache[$id]['singleton']) && ($this->cache[$id]['singleton'] === TRUE))
         {
@@ -193,9 +180,9 @@ class ConfigServiceLocator
      *
      * @param string $id ID of the object to instantiate.
      *
-     * @return mixed $return new Object on success, NULL on error.
+     * @return object|null New Object on success, NULL on error.
      */
-    protected function get_instance($id)
+    protected function get_instance(string $id): ?object
     {
         $reflection = new ReflectionClass($this->cache[$id]['name']);
 
@@ -234,9 +221,9 @@ class ConfigServiceLocator
      *
      * @param array $params Array of parameters according to the recipe.
      *
-     * @return array $processed_params Array of processed parameters ready for instantiation.
+     * @return array Array of processed parameters ready for instantiation.
      */
-    protected function get_parameters($params)
+    protected function get_parameters(array $params): array
     {
         $processed_params = [];
 
@@ -245,6 +232,12 @@ class ConfigServiceLocator
             if (is_string($value) && $value[0] === '!')
             {
                 $processed_params[] = substr($value, 1);
+                continue;
+            }
+
+            if (!is_string($value))
+            {
+                $processed_params[] = $value;
                 continue;
             }
 

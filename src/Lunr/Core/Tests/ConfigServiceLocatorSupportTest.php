@@ -11,6 +11,8 @@
 
 namespace Lunr\Core\Tests;
 
+use stdClass;
+
 /**
  * This class contains the tests for the locator class.
  *
@@ -97,11 +99,12 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
      */
     public function testProcessNewInstanceReturnsInstance(): void
     {
-        $method = $this->get_accessible_reflection_method('process_new_instance');
+        $method   = $this->get_accessible_reflection_method('process_new_instance');
+        $instance = new stdClass();
 
-        $return = $method->invokeArgs($this->class, [ 'id', 'instance' ]);
+        $return = $method->invokeArgs($this->class, [ 'id', $instance ]);
 
-        $this->assertEquals('instance', $return);
+        $this->assertSame($instance, $return);
     }
 
     /**
@@ -113,12 +116,13 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
     {
         $method   = $this->get_accessible_reflection_method('process_new_instance');
         $registry = $this->get_accessible_reflection_property('registry');
+        $instance = new stdClass();
 
         $recipe = [ 'id' => [ 'singleton' => FALSE ] ];
         $this->set_reflection_property_value('cache', $recipe);
 
         $this->assertArrayNotHasKey('id', $registry->getValue($this->class));
-        $method->invokeArgs($this->class, [ 'id', 'instance' ]);
+        $method->invokeArgs($this->class, [ 'id', $instance ]);
         $this->assertArrayNotHasKey('id', $registry->getValue($this->class));
     }
 
@@ -131,12 +135,13 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
     {
         $method   = $this->get_accessible_reflection_method('process_new_instance');
         $registry = $this->get_accessible_reflection_property('registry');
+        $instance = new stdClass();
 
         $recipe = [ 'id' => [] ];
         $this->set_reflection_property_value('cache', $recipe);
 
         $this->assertArrayNotHasKey('id', $registry->getValue($this->class));
-        $method->invokeArgs($this->class, [ 'id', 'instance' ]);
+        $method->invokeArgs($this->class, [ 'id', $instance ]);
         $this->assertArrayNotHasKey('id', $registry->getValue($this->class));
     }
 
@@ -149,12 +154,13 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
     {
         $method   = $this->get_accessible_reflection_method('process_new_instance');
         $registry = $this->get_accessible_reflection_property('registry');
+        $instance = new stdClass();
 
         $recipe = [ 'id' => [ 'singleton' => TRUE ] ];
         $this->set_reflection_property_value('cache', $recipe);
 
         $this->assertArrayNotHasKey('id', $registry->getValue($this->class));
-        $method->invokeArgs($this->class, [ 'id', 'instance' ]);
+        $method->invokeArgs($this->class, [ 'id', $instance ]);
         $this->assertArrayHasKey('id', $registry->getValue($this->class));
     }
 

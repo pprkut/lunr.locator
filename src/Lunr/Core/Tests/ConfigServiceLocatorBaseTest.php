@@ -60,7 +60,7 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
 
         $this->set_reflection_property_value('registry', $registry);
 
-        $this->assertTrue($this->class->override('id', $class));
+        $this->class->override('id', $class);
 
         $registry = $this->get_reflection_property_value('registry');
 
@@ -69,7 +69,7 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
     }
 
     /**
-     * Test that override() returns FALSE when trying to override with non-object.
+     * Test that override() throws an error when trying to override with non-object.
      *
      * @param mixed $value Non-object value
      *
@@ -78,7 +78,10 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
      */
     public function testOverrideWithInvalidObject($value): void
     {
-        $this->assertFalse($this->class->override('id', $value));
+        $this->expectException('TypeError');
+        $this->expectExceptionMessageMatches('/^Argument 2 passed to Lunr\\\Core\\\ConfigServiceLocator::override\(\) must be an object/');
+
+        $this->class->override('id', $value);
     }
 
     /**
@@ -90,7 +93,7 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
     {
         $class = new \stdClass();
 
-        $this->assertTrue($this->class->override('id', $class));
+        $this->class->override('id', $class);
 
         $registry = $this->get_reflection_property_value('registry');
 
