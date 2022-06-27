@@ -18,6 +18,7 @@ use Lunr\Core\Exceptions\ContainerException;
 use Lunr\Core\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * Class Locator
@@ -204,7 +205,17 @@ class ConfigServiceLocator implements ContainerInterface
         {
             foreach ($this->cache[$id]['methods'] as $method)
             {
-                $method_params = isset($method['params']) ? $this->get_parameters($method['params']) : [];
+                if (isset($method['params']))
+                {
+                    $method_params = $this->get_parameters(
+                        $method['params'],
+                        (new ReflectionMethod($instance, $method['name']))->getParameters()
+                    );
+                }
+                else
+                {
+                    $method_params = [];
+                }
 
                 $instance->{$method['name']}(...$method_params);
             }
@@ -246,7 +257,12 @@ class ConfigServiceLocator implements ContainerInterface
 
         if ($number_of_total_parameters > 0)
         {
-            return $reflection->newInstanceArgs($this->get_parameters($this->cache[$id]['params']));
+            return $reflection->newInstanceArgs(
+                $this->get_parameters(
+                    $this->cache[$id]['params'],
+                    $constructor->getParameters()
+                )
+            );
         }
         else
         {
@@ -257,23 +273,32 @@ class ConfigServiceLocator implements ContainerInterface
     /**
      * Prepare the parameters in the recipe for object instantiation.
      *
-     * @param array $params Array of parameters according to the recipe.
+     * @param array                 $params       Array of parameters according to the recipe.
+     * @param ReflectionParameter[] $methodParams Array of ReflectionParameters for the method
      *
      * @return array Array of processed parameters ready for instantiation.
      */
-    protected function get_parameters(array $params): array
+    protected function get_parameters(array $params, array $methodParams): array
     {
         $processed_params = [];
 
-        foreach ($params as $value)
+        foreach ($params as $key => $value)
         {
-            if (is_string($value) && $value[0] === '!')
+            $is_string = is_string($value);
+
+            if ($is_string && $value[0] === '!')
             {
                 $processed_params[] = substr($value, 1);
                 continue;
             }
 
-            if (!is_string($value))
+            if ($is_string && isset($methodParams[$key]) && ((string) $methodParams[$key]->getType()) === 'string')
+            {
+                $processed_params[] = $value;
+                continue;
+            }
+
+            if (!$is_string)
             {
                 $processed_params[] = $value;
                 continue;

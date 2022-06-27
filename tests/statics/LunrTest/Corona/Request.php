@@ -5,7 +5,7 @@ namespace LunrTest\Corona;
 class Request
 {
 
-    public function __construct($parser)
+    public function __construct($config)
     {
 
     }

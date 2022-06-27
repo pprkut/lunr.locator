@@ -77,12 +77,12 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetInstanceReturnsInstanceForConstructorWithArguments(): void
     {
-        $cache = [ 'datetime' => [ 'name' => 'LunrTest\Core\DateTime', 'params' => [ 'config' ] ] ];
+        $cache = [ 'datetime' => [ 'name' => 'LunrTest\Corona\Request', 'params' => [ 'config' ] ] ];
         $this->set_reflection_property_value('cache', $cache);
 
         $method = $this->get_accessible_reflection_method('get_instance');
 
-        $this->assertInstanceOf('LunrTest\Core\DateTime', $method->invokeArgs($this->class, [ 'datetime' ]));
+        $this->assertInstanceOf('LunrTest\Corona\Request', $method->invokeArgs($this->class, [ 'datetime' ]));
     }
 
     /**
@@ -109,9 +109,17 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     {
         $params = [ 'config' ];
 
+        $param = $this->getMockBuilder('ReflectionParameter')
+                      ->disableOriginalConstructor()
+                      ->getMock();
+
+        $param->expects($this->once())
+              ->method('getType')
+              ->willReturn('Lunr\Core\Configuration');
+
         $method = $this->get_accessible_reflection_method('get_parameters');
 
-        $return = $method->invokeArgs($this->class, [ $params ]);
+        $return = $method->invokeArgs($this->class, [ $params, [ $param ] ]);
 
         $this->assertIsArray($return);
         $this->assertInstanceOf('Lunr\Core\Configuration', $return[0]);
@@ -124,11 +132,19 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetParametersProcessesNonIDParameter(): void
     {
-        $params = [ '!string' ];
+        $params = [ 'string' ];
+
+        $param = $this->getMockBuilder('ReflectionParameter')
+                      ->disableOriginalConstructor()
+                      ->getMock();
+
+        $param->expects($this->once())
+              ->method('getType')
+              ->willReturn('string');
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 
-        $return = $method->invokeArgs($this->class, [ $params ]);
+        $return = $method->invokeArgs($this->class, [ $params, [ $param ] ]);
 
         $this->assertIsArray($return);
         $this->assertEquals('string', $return[0]);
@@ -145,7 +161,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 
-        $return = $method->invokeArgs($this->class, [ $params ]);
+        $return = $method->invokeArgs($this->class, [ $params, [] ]);
 
         $this->assertIsArray($return);
         $this->assertSame([], $return[0]);
@@ -164,7 +180,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 
-        $return = $method->invokeArgs($this->class, [ $params ]);
+        $return = $method->invokeArgs($this->class, [ $params, [] ]);
 
         $this->assertIsArray($return);
         $this->assertEquals('string', $return[0]);
@@ -177,11 +193,19 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      */
     public function testGetParametersProcessesMixedParameters(): void
     {
-        $params = [ 'config', '!config', '!string' ];
+        $params = [ 'config', '!config', 'string' ];
+
+        $param = $this->getMockBuilder('ReflectionParameter')
+                      ->disableOriginalConstructor()
+                      ->getMock();
+
+        $param->expects($this->exactly(2))
+              ->method('getType')
+              ->willReturnOnConsecutiveCalls('Lunr\Core\Configuration', 'string');
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 
-        $return = $method->invokeArgs($this->class, [ $params ]);
+        $return = $method->invokeArgs($this->class, [ $params, [ $param, $param, $param ] ]);
 
         $this->assertIsArray($return);
         $this->assertInstanceOf('Lunr\Core\Configuration', $return[0]);
