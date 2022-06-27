@@ -134,13 +134,21 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     {
         $params = [ 'string' ];
 
-        $param = $this->getMockBuilder('ReflectionParameter')
+        $type = $this->getMockBuilder('\ReflectionNamedType')
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
+        $type->expects($this->once())
+             ->method('getName')
+             ->willReturn('string');
+
+        $param = $this->getMockBuilder('\ReflectionParameter')
                       ->disableOriginalConstructor()
                       ->getMock();
 
         $param->expects($this->once())
               ->method('getType')
-              ->willReturn('string');
+              ->willReturn($type);
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 
@@ -195,13 +203,21 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     {
         $params = [ 'config', '!config', 'string' ];
 
+        $type = $this->getMockBuilder('\ReflectionNamedType')
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
+        $type->expects($this->exactly(2))
+             ->method('getName')
+             ->willReturnOnConsecutiveCalls('Lunr\Core\Configuration', 'string');
+
         $param = $this->getMockBuilder('ReflectionParameter')
                       ->disableOriginalConstructor()
                       ->getMock();
 
         $param->expects($this->exactly(2))
               ->method('getType')
-              ->willReturnOnConsecutiveCalls('Lunr\Core\Configuration', 'string');
+              ->willReturn($type);
 
         $method = $this->get_accessible_reflection_method('get_parameters');
 

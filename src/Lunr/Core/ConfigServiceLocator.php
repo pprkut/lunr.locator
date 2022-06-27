@@ -19,6 +19,8 @@ use Lunr\Core\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
+use ReflectionParameter;
 
 /**
  * Class Locator
@@ -284,24 +286,26 @@ class ConfigServiceLocator implements ContainerInterface
 
         foreach ($params as $key => $value)
         {
-            $is_string = is_string($value);
+            if (!is_string($value))
+            {
+                $processed_params[] = $value;
+                continue;
+            }
 
-            if ($is_string && $value[0] === '!')
+            if ($value[0] === '!')
             {
                 $processed_params[] = substr($value, 1);
                 continue;
             }
 
-            if ($is_string && isset($methodParams[$key]) && ((string) $methodParams[$key]->getType()) === 'string')
+            if (isset($methodParams[$key]))
             {
-                $processed_params[] = $value;
-                continue;
-            }
-
-            if (!$is_string)
-            {
-                $processed_params[] = $value;
-                continue;
+                $typeClass = $methodParams[$key]->getType();
+                if ($typeClass instanceof ReflectionNamedType && $typeClass->getName() === 'string')
+                {
+                    $processed_params[] = $value;
+                    continue;
+                }
             }
 
             $processed_params[] = $this->get($value);
