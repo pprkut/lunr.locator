@@ -12,27 +12,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/M2mobi/lunr.config.git",
-                "reference": "78332f5cb301c85e408779dacdeec7d63ef02908"
+                "reference": "59fbbeb49a089079feb37183b23c8ec01d478ea7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/M2mobi/lunr.config/zipball/78332f5cb301c85e408779dacdeec7d63ef02908",
-                "reference": "78332f5cb301c85e408779dacdeec7d63ef02908",
+                "url": "https://api.github.com/repos/M2mobi/lunr.config/zipball/59fbbeb49a089079feb37183b23c8ec01d478ea7",
+                "reference": "59fbbeb49a089079feb37183b23c8ec01d478ea7",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.2||8.0"
+                "php": ">=7.4"
             },
             "require-dev": {
-                "ext-xdebug": ">=2.4",
                 "lunr/halo": "dev-master",
-                "phpunit/phpunit": "~8.0"
+                "phpunit/phpunit": ">=8.5"
             },
             "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Lunr\\Core\\": "/src/Lunr/Core/"
+                    "Lunr\\Core\\": "src/Lunr/Core/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -48,7 +47,7 @@
                 "issues": "https://github.com/M2mobi/lunr.config/issues",
                 "source": "https://github.com/M2mobi/lunr.config/tree/master"
             },
-            "time": "2022-02-15T13:53:59+00:00"
+            "time": "2022-06-15T14:31:50+00:00"
         },
         {
             "name": "lunr/halo",
@@ -56,22 +55,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/M2mobi/lunr.halo.git",
-                "reference": "6d0aeb6cc011a5cedf224613b4088416384d471a"
+                "reference": "44c35ab9e9c1ef08cf2a274a1aab4038abe24514"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/M2mobi/lunr.halo/zipball/6d0aeb6cc011a5cedf224613b4088416384d471a",
-                "reference": "6d0aeb6cc011a5cedf224613b4088416384d471a",
+                "url": "https://api.github.com/repos/M2mobi/lunr.halo/zipball/44c35ab9e9c1ef08cf2a274a1aab4038abe24514",
+                "reference": "44c35ab9e9c1ef08cf2a274a1aab4038abe24514",
                 "shasum": ""
             },
             "require": {
                 "ext-uopz": ">=6.1",
-                "php": "~7.4||~8.0",
+                "php": ">=7.4",
                 "psr/log": "~1.1"
             },
             "require-dev": {
-                "ext-xdebug": ">=2.6",
-                "phpunit/phpunit": "~9.0"
+                "ext-xdebug": ">=3.0",
+                "phpunit/phpunit": ">=8.5"
             },
             "default-branch": true,
             "type": "library",
@@ -95,7 +94,7 @@
                 "issues": "https://github.com/M2mobi/lunr.halo/issues",
                 "source": "https://github.com/M2mobi/lunr.halo/tree/master"
             },
-            "time": "2022-06-03T11:00:40+00:00"
+            "time": "2022-06-15T11:28:57+00:00"
         },
         {
             "name": "psr/container",
@@ -1045,16 +1044,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.20",
+            "version": "9.5.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "12bc8879fb65aef2138b26fc633cb1e3620cffba"
+                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/12bc8879fb65aef2138b26fc633cb1e3620cffba",
-                "reference": "12bc8879fb65aef2138b26fc633cb1e3620cffba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0e32b76be457de00e83213528f6bb37e2a38fcb1",
+                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1",
                 "shasum": ""
             },
             "require": {
@@ -1088,7 +1087,6 @@
                 "sebastian/version": "^3.0.2"
             },
             "require-dev": {
-                "ext-pdo": "*",
                 "phpspec/prophecy-phpunit": "^2.0.1"
             },
             "suggest": {
@@ -1132,7 +1130,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.20"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.21"
             },
             "funding": [
                 {
@@ -1144,7 +1142,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-01T12:37:26+00:00"
+            "time": "2022-06-19T12:14:25+00:00"
         },
         {
             "name": "sebastian/cli-parser",
