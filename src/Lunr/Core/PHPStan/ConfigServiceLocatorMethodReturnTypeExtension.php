@@ -3,10 +3,8 @@
 /**
  * PHPStan Method return type extension
  *
- * @package   Lunr\Core
- * @author    Sean Molenaar <sean.molenaar@moveagency.com>
- * @copyright 2022, Move Agency BV, Amsterdam, The Netherlands
- * @license   http://lunr.nl/LICENSE MIT License
+ * SPDX-FileCopyrightText: Copyright 2022 Move Agency Group B.V., Zwolle, The Netherlands
+ * SPDX-License-Identifier: MIT
  *
  * @see https://phpstan.org/developing-extensions/dynamic-return-type-extensions
  */
