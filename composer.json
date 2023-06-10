@@ -2,7 +2,7 @@
     "name": "lunr/locator",
     "description": "Lunr.Locator is an opinionated service locator.",
     "keywords": ["servicelocator", "dependency injection"],
-    "homepage": "https://github.com/M2Mobi/lunr.locator",
+    "homepage": "https://github.com/lunr-php/lunr.locator",
     "type": "library",
     "license": "MIT",
     "require": {
