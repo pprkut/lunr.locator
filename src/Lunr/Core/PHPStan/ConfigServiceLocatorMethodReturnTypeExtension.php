@@ -43,7 +43,7 @@ class ConfigServiceLocatorMethodReturnTypeExtension implements DynamicMethodRetu
      */
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return !in_array($methodReflection->getName(), ['has', 'override']);
+        return !in_array($methodReflection->getName(), [ 'has', 'override' ]);
     }
 
     /**
@@ -77,3 +77,5 @@ class ConfigServiceLocatorMethodReturnTypeExtension implements DynamicMethodRetu
     }
 
 }
+
+?>

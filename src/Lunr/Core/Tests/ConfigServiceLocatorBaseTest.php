@@ -98,3 +98,5 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
     }
 
 }
+
+?>
