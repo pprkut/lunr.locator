@@ -13,6 +13,7 @@ namespace Lunr\Core\PHPStan;
 
 use Lunr\Core\ConfigServiceLocator;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
@@ -57,8 +58,25 @@ class ConfigServiceLocatorMethodReturnTypeExtension implements DynamicMethodRetu
      */
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        $id = $methodReflection->getName() !== 'get' ? $methodReflection->getName() : $methodCall->getArgs()[0]->value->value;
+        if ($methodReflection->getName() !== 'get')
+        {
+            $id = $methodReflection->getName();
+        }
+        else
+        {
+            $arg = $methodCall->getArgs()[0]->value;
 
+            if ($arg instanceof String_)
+            {
+                $id = $arg->value;
+            }
+            else
+            {
+                return NULL;
+            }
+        }
+
+        /** @var LocatorRecipe $recipe */
         $recipe = [];
         $path   = 'locator/locate.' . $id . '.inc.php';
         if (stream_resolve_include_path($path) === FALSE)

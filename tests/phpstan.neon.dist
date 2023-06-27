@@ -7,3 +7,5 @@ parameters:
         - phpstan.autoload.inc.php
     excludePaths:
         - ../src/*/Tests/*
+    typeAliases:
+        LocatorRecipe: 'array<string,array{name: string, params: mixed[], singleton: bool, methods: array{name: string, params: mixed[]}}>'
