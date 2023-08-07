@@ -76,7 +76,7 @@ class ConfigServiceLocatorGetTest extends ConfigServiceLocatorTest
                  [ 'param2', 'param3' ]
              );
 
-        $this->mock_method([ $this->class, 'get_instance' ], function() use ($mock) { return $mock; });
+        $this->mock_method([ $this->class, 'get_instance' ], function () use ($mock) { return $mock; });
 
         $this->class->get('id');
 
@@ -178,7 +178,7 @@ class ConfigServiceLocatorGetTest extends ConfigServiceLocatorTest
                  [ 'param2', 'param3' ]
              );
 
-        $this->mock_method([ $this->class, 'get_instance' ], function() use ($mock) { return $mock; });
+        $this->mock_method([ $this->class, 'get_instance' ], function () use ($mock) { return $mock; });
 
         $this->class->id();
 
