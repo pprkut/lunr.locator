@@ -30,14 +30,21 @@ abstract class ConfigServiceLocatorTest extends LunrBaseTest
     protected $configuration;
 
     /**
+     * Instance of the tested class.
+     * @var ConfigServiceLocator
+     */
+    protected ConfigServiceLocator $class;
+
+    /**
      * Testcase Constructor.
      */
     public function setUp(): void
     {
         $this->configuration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
 
-        $this->class      = new ConfigServiceLocator($this->configuration);
-        $this->reflection = new ReflectionClass('Lunr\Core\ConfigServiceLocator');
+        $this->class = new ConfigServiceLocator($this->configuration);
+
+        parent::baseSetUp($this->class);
     }
 
     /**
@@ -45,11 +52,10 @@ abstract class ConfigServiceLocatorTest extends LunrBaseTest
      */
     public function tearDown(): void
     {
-        //unset doesn't call __destruct() for some reason
-        $this->class->__destruct();
         unset($this->class);
-        unset($this->reflection);
         unset($this->configuration);
+
+        parent::tearDown();
     }
 
     /**
