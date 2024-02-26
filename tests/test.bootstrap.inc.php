@@ -16,6 +16,7 @@ $base = __DIR__ . '/..';
 $paths = [
     get_include_path(),
     $base . '/src',
+    $base . '/tests/statics' ,
     $base . '/tests/statics/Core' ,
 ];
 
