@@ -63,7 +63,7 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
      *
      * @covers Lunr\Core\ConfigServiceLocator::load_recipe
      */
-    public function testLoadRecipeCachesWithValidRecipies(): void
+    public function testLoadRecipeCachesWithValidRecipes(): void
     {
         $method = $this->get_accessible_reflection_method('load_recipe');
         $cache  = $this->get_accessible_reflection_property('cache');

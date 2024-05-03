@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file contains an imlementation of the ServiceLocator
+ * This file contains an implementation of the ServiceLocator
  * design pattern. It allows to transparently request class
  * instances without having to care about the instantiation
  * details or sharing.
