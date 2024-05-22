@@ -46,7 +46,7 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
      */
     public function testLoadRecipeIncludesExistingFile(): void
     {
-        $filename = 'Core/locator/locate.valid.inc.php';
+        $filename = 'Core/locator/locate.existing.inc.php';
 
         $basename = str_replace('src/Lunr/Core/Tests', 'tests/statics/', __DIR__);
         $filename = $basename . $filename;
@@ -54,7 +54,7 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
         $method = $this->get_accessible_reflection_method('load_recipe');
 
         $this->assertNotContains($filename, get_included_files());
-        $method->invokeArgs($this->class, [ 'valid' ]);
+        $method->invokeArgs($this->class, [ 'existing' ]);
         $this->assertContains($filename, get_included_files());
     }
 
