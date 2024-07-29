@@ -11,8 +11,8 @@
 
 namespace Lunr\Core\PHPStan;
 
-use Psr\Container\ContainerInterface;
 use PHPStan\Reflection\MethodReflection;
+use Psr\Container\ContainerInterface;
 
 /**
  * Return type extension for ConfigServiceLocator recipes
@@ -39,6 +39,18 @@ class ConfigServiceLocatorAsContainerInterfaceMethodReturnTypeExtension extends 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
         return !in_array($methodReflection->getName(), [ 'has' ]);
+    }
+
+    /**
+     * Catch locator get calls in the locate files
+     *
+     * @param string $name Name of the locator
+     *
+     * @return void
+     */
+    public function get(string $name): void
+    {
+        //NO-OP
     }
 
 }
