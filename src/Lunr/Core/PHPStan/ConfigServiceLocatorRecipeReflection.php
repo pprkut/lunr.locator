@@ -14,8 +14,10 @@ namespace Lunr\Core\PHPStan;
 use PHPStan\Reflection\ClassMemberReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\TrivialParametersAcceptor;
 use PHPStan\TrinaryLogic;
+use PHPStan\Type\Type;
 
 /**
  * Methodreflection for ConfigServiceLocator recipes
@@ -105,7 +107,7 @@ class ConfigServiceLocatorRecipeReflection implements MethodReflection
 
     /**
      * Get the variants of the parameters to accept
-     * @return \PHPStan\Reflection\ParametersAcceptor[]
+     * @return ParametersAcceptor[]
      */
     public function getVariants(): array
     {
@@ -127,7 +129,7 @@ class ConfigServiceLocatorRecipeReflection implements MethodReflection
      * Is the method deprecated
      * @return TrinaryLogic
      */
-    public function isDeprecated(): \PHPStan\TrinaryLogic
+    public function isDeprecated(): TrinaryLogic
     {
         return TrinaryLogic::createNo();
     }
@@ -145,7 +147,7 @@ class ConfigServiceLocatorRecipeReflection implements MethodReflection
      * Is the method final
      * @return TrinaryLogic
      */
-    public function isFinal(): \PHPStan\TrinaryLogic
+    public function isFinal(): TrinaryLogic
     {
         return TrinaryLogic::createNo();
     }
@@ -154,16 +156,16 @@ class ConfigServiceLocatorRecipeReflection implements MethodReflection
      * Is the method internal
      * @return TrinaryLogic
      */
-    public function isInternal(): \PHPStan\TrinaryLogic
+    public function isInternal(): TrinaryLogic
     {
         return TrinaryLogic::createNo();
     }
 
     /**
      * Get the type of exceptions to throw
-     * @return \PHPStan\Type\Type|null
+     * @return Type|null
      */
-    public function getThrowType(): ?\PHPStan\Type\Type
+    public function getThrowType(): ?Type
     {
         return NULL;
     }
@@ -172,7 +174,7 @@ class ConfigServiceLocatorRecipeReflection implements MethodReflection
      * Does the method have side effects
      * @return TrinaryLogic
      */
-    public function hasSideEffects(): \PHPStan\TrinaryLogic
+    public function hasSideEffects(): TrinaryLogic
     {
         return TrinaryLogic::createNo();
     }

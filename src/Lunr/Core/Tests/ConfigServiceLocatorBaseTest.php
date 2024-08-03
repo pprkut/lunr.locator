@@ -10,6 +10,8 @@
 
 namespace Lunr\Core\Tests;
 
+use stdClass;
+
 /**
  * This class contains the tests for the locator class.
  *
@@ -55,7 +57,7 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
     public function testOverrideWhenIDAlreadyTaken(): void
     {
         $registry = [ 'id' => 'Foo' ];
-        $class    = new \stdClass();
+        $class    = new stdClass();
 
         $this->set_reflection_property_value('registry', $registry);
 
@@ -87,7 +89,7 @@ class ConfigServiceLocatorBaseTest extends ConfigServiceLocatorTest
      */
     public function testSuccessfulOverride(): void
     {
-        $class = new \stdClass();
+        $class = new stdClass();
 
         $this->class->override('id', $class);
 
