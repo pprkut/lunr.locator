@@ -10,8 +10,6 @@
 
 namespace Lunr\Core\Tests;
 
-use stdClass;
-
 /**
  * This class contains the tests for the locator class.
  *

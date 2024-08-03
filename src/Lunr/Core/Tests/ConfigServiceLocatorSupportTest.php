@@ -10,6 +10,7 @@
 
 namespace Lunr\Core\Tests;
 
+use Lunr\Halo\CallbackMock;
 use stdClass;
 
 /**
@@ -226,12 +227,12 @@ class ConfigServiceLocatorSupportTest extends ConfigServiceLocatorTest
         $mock->expects($this->exactly(1))
              ->method('test')
              ->with('param1')
-             ->willReturn(new \Lunr\Halo\CallbackMock());
+             ->willReturn(new CallbackMock());
 
         $method = $this->get_accessible_reflection_method('process_new_instance');
         $result = $method->invokeArgs($this->class, [ 'id', $mock ]);
         $this->assertNotSame($mock, $result);
-        $this->assertInstanceOf(\Lunr\Halo\CallbackMock::class, $result);
+        $this->assertInstanceOf(CallbackMock::class, $result);
     }
 
     /**
