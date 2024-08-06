@@ -13,7 +13,6 @@ namespace Lunr\Core\Tests;
 use Lunr\Core\ConfigServiceLocator;
 use Lunr\Core\Configuration;
 use Lunr\Halo\LunrBaseTest;
-use ReflectionClass;
 
 /**
  * This class contains the tests for the locator class.
