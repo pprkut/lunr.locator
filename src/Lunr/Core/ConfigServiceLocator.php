@@ -238,9 +238,19 @@ class ConfigServiceLocator implements ContainerInterface
     {
         $reflection = new ReflectionClass($this->cache[$id]['name']);
 
-        if ($reflection->isInstantiable() !== TRUE)
+        if ($reflection->isInstantiable() !== TRUE && $reflection->isEnum() !== TRUE)
         {
             throw new ContainerException("Not possible to instantiate '{$reflection->name}'!");
+        }
+
+        if ($reflection->isEnum() === TRUE)
+        {
+            if (count($this->cache[$id]['params']) < 1)
+            {
+                throw new ContainerException("Not enough parameters for $reflection->name::from()!");
+            }
+
+            return call_user_func_array([ $this->cache[$id]['name'], 'from' ], $this->cache[$id]['params']);
         }
 
         $constructor = $reflection->getConstructor();
