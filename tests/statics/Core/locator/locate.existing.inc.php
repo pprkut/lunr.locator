@@ -17,4 +17,3 @@ $recipe['existing']['params'] = [];
 $recipe['existing']['singleton'] = FALSE;
 
 ?>
-
