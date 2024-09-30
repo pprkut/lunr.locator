@@ -10,6 +10,8 @@
 
 namespace Lunr\Core\Tests;
 
+use LunrTest\Core\Type;
+
 /**
  * This class contains the tests for the locator class.
  *
@@ -23,7 +25,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
      *
      * @covers \Lunr\Core\ConfigServiceLocator::get_instance
      */
-    public function testGetInstanceThrowsForNonInstantiableClass(): void
+    public function testGetInstanceThrowsExceptionForNonInstantiableClass(): void
     {
         $this->expectException('Lunr\Core\Exceptions\ContainerException');
         $this->expectExceptionMessage('Not possible to instantiate \'LunrTest\Corona\Controller\'!');
@@ -33,7 +35,43 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
 
         $method = $this->get_accessible_reflection_method('get_instance');
 
-        $this->assertNull($method->invokeArgs($this->class, [ 'controller' ]));
+        $method->invokeArgs($this->class, [ 'controller' ]);
+    }
+
+    /**
+     * Test that get_instance() throws an exception when there are not enough arguments for the Enum.
+     *
+     * @covers \Lunr\Core\ConfigServiceLocator::get_instance
+     */
+    public function testGetInstanceThrowsExceptionForTooLittleNumberOfEnumArguments(): void
+    {
+        $this->expectException('Lunr\Core\Exceptions\ContainerException');
+        $this->expectExceptionMessage('Not enough parameters for LunrTest\Core\Type::from()!');
+
+        $cache = [ 'type' => [ 'name' => 'LunrTest\Core\Type', 'params' => [] ] ];
+        $this->set_reflection_property_value('cache', $cache);
+
+        $method = $this->get_accessible_reflection_method('get_instance');
+
+        $method->invokeArgs($this->class, [ 'type' ]);
+    }
+
+    /**
+     * Test that get_instance() returns an enum instance.
+     *
+     * @covers \Lunr\Core\ConfigServiceLocator::get_instance
+     */
+    public function testGetInstanceReturnsInstanceForEnum(): void
+    {
+        $cache = [ 'type' => [ 'name' => 'LunrTest\Core\Type', 'params' => [ 'a' ] ] ];
+        $this->set_reflection_property_value('cache', $cache);
+
+        $method = $this->get_accessible_reflection_method('get_instance');
+
+        $value = $method->invokeArgs($this->class, [ 'type' ]);
+
+        $this->assertInstanceOf('LunrTest\Core\Type', $value);
+        $this->assertSame(Type::A, $value);
     }
 
     /**
@@ -52,11 +90,11 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
     }
 
     /**
-     * Test that get_instance() returns NULL when there are not enough arguments for the Constructor.
+     * Test that get_instance() throws an exception when there are not enough arguments for the Constructor.
      *
      * @covers \Lunr\Core\ConfigServiceLocator::get_instance
      */
-    public function testGetInstanceReturnsNullForTooLittleNumberOfConstructorArguments(): void
+    public function testGetInstanceThrowsExceptionForTooLittleNumberOfConstructorArguments(): void
     {
         $this->expectException('Lunr\Core\Exceptions\ContainerException');
         $this->expectExceptionMessage('Not enough parameters for LunrTest\Corona\Request!');
@@ -66,7 +104,7 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTest
 
         $method = $this->get_accessible_reflection_method('get_instance');
 
-        $this->assertNull($method->invokeArgs($this->class, [ 'request' ]));
+        $method->invokeArgs($this->class, [ 'request' ]);
     }
 
     /**
