@@ -8,6 +8,9 @@
 
 namespace LunrTest\Corona;
 
+/**
+ * Locator test class.
+ */
 abstract class Controller
 {
 
