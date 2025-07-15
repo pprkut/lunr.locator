@@ -8,12 +8,19 @@
 
 namespace LunrTest\Corona;
 
+/**
+ * Locator test class.
+ */
 class Request
 {
 
+    /**
+     * Constructor.
+     *
+     * @param mixed $config Constructor param
+     */
     public function __construct($config)
     {
-
     }
 
 }

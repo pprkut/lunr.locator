@@ -8,12 +8,18 @@
 
 namespace LunrTest\Core;
 
+/**
+ * Locator test class.
+ */
 class DateTime
 {
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-
+        // no-op
     }
 
 }
