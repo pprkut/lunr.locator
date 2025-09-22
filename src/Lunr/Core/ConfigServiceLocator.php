@@ -317,6 +317,12 @@ class ConfigServiceLocator implements ContainerInterface
                 continue;
             }
 
+            if ($value === '')
+            {
+                $processedParams[] = '';
+                continue;
+            }
+
             if ($value[0] === '!')
             {
                 $processedParams[] = substr($value, 1);

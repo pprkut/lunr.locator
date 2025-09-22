@@ -274,6 +274,23 @@ class ConfigServiceLocatorGetInstanceTest extends ConfigServiceLocatorTestCase
         $this->assertEquals('string', $return[2]);
     }
 
+    /**
+     * Test that getParameters processes empty parameters.
+     *
+     * @covers \Lunr\Core\ConfigServiceLocator::getParameters
+     */
+    public function testGetParametersProcessesEmptyParameter(): void
+    {
+        $params = [ '' ];
+
+        $method = $this->getReflectionMethod('getParameters');
+
+        $return = $method->invokeArgs($this->class, [ $params, [] ]);
+
+        $this->assertIsArray($return);
+        $this->assertSame('', $return[0]);
+    }
+
 }
 
 ?>
