@@ -45,7 +45,7 @@ class ConfigServiceLocatorHasTest extends ConfigServiceLocatorTestCase
      */
     public function testHasReturnsOnCache(): void
     {
-        $this->set_reflection_property_value('cache', [ 'cachehit' => [] ]);
+        $this->setReflectionPropertyValue('cache', [ 'cachehit' => [] ]);
 
         $this->assertTrue($this->class->has('cachehit'));
     }
